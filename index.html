@@ -1,299 +1,360 @@
-/*
-INSTALL THESE PACKAGES BEFORE RUNNING:
-
-npm install framer-motion lucide-react
-
-TAILWIND CSS REQUIRED
-
-Add this in index.css:
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
-  background: #000;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-.custom-glow {
-  box-shadow: 0 0 40px rgba(59,130,246,0.25);
+body{
+  font-family:'Inter',sans-serif;
+  background:#050816;
+  color:white;
+  overflow-x:hidden;
 }
 
-.gradient-text {
-  background: linear-gradient(to right, #22d3ee, #3b82f6, #8b5cf6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.background{
+  position:fixed;
+  inset:0;
+  background:
+  radial-gradient(circle at top right,#1d4ed8,transparent 30%),
+  radial-gradient(circle at bottom left,#7c3aed,transparent 30%);
+  z-index:-1;
 }
 
-.card-hover:hover {
-  transform: translateY(-6px) scale(1.02);
-  transition: all 0.3s ease;
+.hero{
+  text-align:center;
+  padding:100px 20px 60px;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+.badge{
+  display:inline-block;
+  padding:12px 24px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:999px;
+  margin-bottom:30px;
+  backdrop-filter:blur(10px);
 }
 
-Then import index.css in main.jsx:
+.hero h1{
+  font-size:80px;
+  font-weight:900;
+  background:linear-gradient(to right,#22d3ee,#3b82f6,#8b5cf6);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-import './index.css'
+.hero p{
+  max-width:850px;
+  margin:auto;
+  margin-top:20px;
+  line-height:1.8;
+  color:#cbd5e1;
+  font-size:18px;
+}
 
-*/
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:30px;
+  padding:40px;
+}
 
-import { motion } from 'framer-motion';
-import { Brain, Database, BarChart3, Code2, Sigma, Target, Sparkles, Cpu, BookOpen, TrendingUp } from 'lucide-react';
+.card{
+  padding:30px;
+  border-radius:30px;
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:0.4s;
+  position:relative;
+  overflow:hidden;
+}
 
-export default function GateRoadmap() {
-  const sections = [
-    {
-      title: 'Programming + DSA',
-      icon: <Code2 className="w-7 h-7" />,
-      marks: '20–21 Marks',
-      color: 'from-red-500 to-pink-500',
-      topics: [
-        'Arrays', 'Linked Lists', 'Stacks', 'Queues', 'Trees', 'BST', 'Graphs',
-        'Hashing', 'Recursion', 'Sorting', 'Searching', 'Dynamic Programming',
-        'Greedy Algorithms', 'Big-O Notation', 'Python Programming'
-      ]
-    },
-    {
-      title: 'Probability & Statistics',
-      icon: <BarChart3 className="w-7 h-7" />,
-      marks: '14–16 Marks',
-      color: 'from-cyan-500 to-blue-500',
-      topics: [
-        'Bayes Theorem', 'Random Variables', 'Probability', 'Distributions',
-        'Variance', 'Standard Deviation', 'Hypothesis Testing', 'Correlation',
-        'Covariance', 'Central Limit Theorem'
-      ]
-    },
-    {
-      title: 'Machine Learning',
-      icon: <Brain className="w-7 h-7" />,
-      marks: '10–11 Marks',
-      color: 'from-violet-500 to-purple-500',
-      topics: [
-        'Regression', 'Classification', 'KNN', 'SVM', 'Decision Trees',
-        'Random Forest', 'Clustering', 'Overfitting', 'Bias vs Variance',
-        'Cross Validation'
-      ]
-    },
-    {
-      title: 'Artificial Intelligence',
-      icon: <Cpu className="w-7 h-7" />,
-      marks: '10–11 Marks',
-      color: 'from-yellow-500 to-orange-500',
-      topics: [
-        'BFS', 'DFS', 'A* Algorithm', 'Logic', 'Reasoning',
-        'Game Playing', 'Knowledge Representation'
-      ]
-    },
-    {
-      title: 'Linear Algebra',
-      icon: <Sigma className="w-7 h-7" />,
-      marks: '8–10 Marks',
-      color: 'from-green-500 to-emerald-500',
-      topics: [
-        'Matrices', 'Determinants', 'Eigenvalues', 'Eigenvectors',
-        'Vector Spaces', 'Orthogonality', 'Rank of Matrix'
-      ]
-    },
-    {
-      title: 'DBMS',
-      icon: <Database className="w-7 h-7" />,
-      marks: '8–10 Marks',
-      color: 'from-indigo-500 to-blue-600',
-      topics: [
-        'SQL', 'Normalization', 'ER Models', 'Joins', 'Transactions',
-        'Concurrency Control', 'Indexes'
-      ]
-    }
-  ];
+.card:hover{
+  transform:translateY(-10px) scale(1.02);
+}
 
-  const aptitude = [
-    'Percentages', 'Ratio & Proportion', 'Profit & Loss', 'Time & Work',
-    'Probability', 'Permutations & Combinations', 'Data Interpretation',
-    'Reading Comprehension', 'Grammar', 'Logical Reasoning',
-    'Series', 'Averages', 'Compound Interest', 'Analogy'
-  ];
+.card h2{
+  font-size:28px;
+  margin-bottom:10px;
+}
 
-  return (
-    <div className="min-h-screen bg-black text-white overflow-hidden relative">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#1e3a8a,transparent_30%),radial-gradient(circle_at_bottom_left,#7c3aed,transparent_30%)]"></div>
+.card span{
+  display:inline-block;
+  margin-bottom:20px;
+  color:#cbd5e1;
+}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-10">
+.topics{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/10 border border-white/10 backdrop-blur-xl mb-6">
-            <Sparkles className="text-cyan-400" />
-            <span className="text-sm tracking-wide">Premium Interactive Dashboard</span>
-          </div>
+.topics p{
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.08);
+  font-size:14px;
+}
 
-          <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 text-transparent bg-clip-text leading-tight">
-            GATE DA 2027
-          </h1>
+.red{
+  background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(127,29,29,0.1));
+}
 
-          <p className="text-gray-300 mt-6 max-w-4xl mx-auto text-lg leading-relaxed">
-            Complete Data Science & Artificial Intelligence Preparation Roadmap with Topic Weightage, Aptitude Syllabus, Smart Study Planning and Premium Interactive UI.
-          </p>
-        </motion.div>
+.blue{
+  background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(30,64,175,0.1));
+}
 
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
-          {sections.map((section, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.03 }}
-              className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl overflow-hidden shadow-2xl"
-            >
-              <div className={`h-2 bg-gradient-to-r ${section.color}`}></div>
+.purple{
+  background:linear-gradient(135deg,rgba(168,85,247,0.2),rgba(88,28,135,0.1));
+}
 
-              <div className="p-7">
-                <div className="flex items-center justify-between mb-5">
-                  <div className={`p-3 rounded-2xl bg-gradient-to-r ${section.color}`}>
-                    {section.icon}
-                  </div>
-                  <span className="text-sm px-4 py-2 rounded-full bg-white/10 border border-white/10">
-                    {section.marks}
-                  </span>
-                </div>
+.yellow{
+  background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(133,77,14,0.1));
+}
 
-                <h2 className="text-2xl font-bold mb-5">{section.title}</h2>
+.green{
+  background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(20,83,45,0.1));
+}
 
-                <div className="flex flex-wrap gap-2">
-                  {section.topics.map((topic, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-2 text-sm rounded-full bg-white/10 border border-white/10 hover:bg-white/20 transition-all"
-                    >
-                      {topic}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+.indigo{
+  background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(49,46,129,0.1));
+}
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="rounded-[32px] bg-gradient-to-br from-cyan-500/10 to-blue-900/10 border border-cyan-500/20 backdrop-blur-2xl p-8 mb-16 shadow-2xl"
-        >
-          <div className="flex items-center justify-between flex-wrap gap-5 mb-8">
-            <div>
-              <h2 className="text-4xl font-black text-cyan-300 flex items-center gap-3">
-                <Target className="w-10 h-10" />
-                General Aptitude
-              </h2>
-              <p className="text-gray-400 mt-2">15 Marks Easy Scoring Section</p>
-            </div>
+.aptitude{
+  padding:60px 40px;
+}
 
-            <div className="px-5 py-3 rounded-2xl bg-cyan-500/10 border border-cyan-400/20 text-cyan-200 font-semibold">
-              High Scoring Area
-            </div>
-          </div>
+.aptitude h2{
+  font-size:45px;
+  margin-bottom:40px;
+  text-align:center;
+}
 
-          <div className="grid md:grid-cols-4 gap-4">
-            {aptitude.map((item, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -5 }}
-                className="rounded-2xl bg-black/30 border border-white/10 p-4 hover:border-cyan-400/30 hover:bg-cyan-500/10 transition-all"
-              >
-                <p className="font-medium">{item}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+.aptitude-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
 
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="rounded-[32px] bg-gradient-to-br from-purple-500/10 to-indigo-900/20 border border-purple-500/20 p-8 backdrop-blur-xl shadow-2xl"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <BookOpen className="w-10 h-10 text-purple-300" />
-              <h2 className="text-3xl font-black text-purple-300">Preparation Flow</h2>
-            </div>
+.aptitude-grid div{
+  padding:20px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:0.3s;
+}
 
-            <div className="space-y-5 text-gray-300 text-lg">
-              <div className="flex items-center gap-4"><span className="text-2xl">1️⃣</span> Probability & Statistics</div>
-              <div className="flex items-center gap-4"><span className="text-2xl">2️⃣</span> Linear Algebra</div>
-              <div className="flex items-center gap-4"><span className="text-2xl">3️⃣</span> Programming + DSA</div>
-              <div className="flex items-center gap-4"><span className="text-2xl">4️⃣</span> Machine Learning</div>
-              <div className="flex items-center gap-4"><span className="text-2xl">5️⃣</span> AI + DBMS</div>
-              <div className="flex items-center gap-4"><span className="text-2xl">6️⃣</span> Aptitude Practice</div>
-            </div>
-          </motion.div>
+.aptitude-grid div:hover{
+  background:#0891b2;
+  transform:translateY(-5px);
+}
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="rounded-[32px] bg-gradient-to-br from-blue-500/10 to-cyan-900/20 border border-blue-500/20 p-8 backdrop-blur-xl shadow-2xl"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <TrendingUp className="w-10 h-10 text-cyan-300" />
-              <h2 className="text-3xl font-black text-cyan-300">Smart Strategy</h2>
-            </div>
+.strategy{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+  gap:30px;
+  padding:60px 40px 100px;
+}
 
-            <div className="space-y-5 text-gray-300 text-lg leading-relaxed">
-              <p>✅ Focus heavily on DSA + Statistics + ML.</p>
-              <p>✅ Practice PYQs every week.</p>
-              <p>✅ Daily aptitude practice for easy marks.</p>
-              <p>✅ Revise formulas weekly.</p>
-              <p>✅ Solve NAT, MSQ and MCQ patterns.</p>
-              <p>✅ Maintain short notes for revision.</p>
-            </div>
-          </motion.div>
-        </div>
+.box{
+  padding:40px;
+  border-radius:30px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+}
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="rounded-[32px] bg-white/5 border border-white/10 backdrop-blur-xl p-8 shadow-2xl"
-        >
-          <h2 className="text-4xl font-black text-center mb-10 bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text">
-            Weekly Study Schedule
-          </h2>
+.box h2{
+  margin-bottom:25px;
+  font-size:32px;
+}
 
-          <div className="grid md:grid-cols-4 gap-5">
-            {[
-              ['Monday', 'Probability & Statistics'],
-              ['Tuesday', 'Programming + DSA'],
-              ['Wednesday', 'Machine Learning'],
-              ['Thursday', 'Linear Algebra + DBMS'],
-              ['Friday', 'Artificial Intelligence'],
-              ['Saturday', 'Aptitude + PYQs'],
-              ['Sunday', 'Revision + Mock Tests']
-            ].map((day, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.04 }}
-                className="rounded-3xl bg-black/30 border border-white/10 p-5 hover:border-cyan-400/30 transition-all"
-              >
-                <h3 className="text-2xl font-bold mb-3 text-cyan-300">{day[0]}</h3>
-                <p className="text-gray-300">{day[1]}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+.box ul{
+  list-style:none;
+}
 
-        <div className="text-center mt-16 text-gray-500">
-          Designed for GATE Data Science & Artificial Intelligence Aspirants • 2027
-        </div>
+.box ul li{
+  margin-bottom:18px;
+  color:#cbd5e1;
+}
+
+@media(max-width:768px){
+
+  .hero h1{
+    font-size:50px;
+  }
+
+  .hero p{
+    font-size:16px;
+  }
+
+  .aptitude h2{
+    font-size:35px;
+  }
+
+}
+  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GATE DA 2027 Roadmap</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="background"></div>
+
+  <section class="hero">
+    <div class="badge">🚀 Premium Interactive Dashboard</div>
+
+    <h1>GATE DA 2027</h1>
+
+    <p>
+      Complete Data Science & Artificial Intelligence Preparation Roadmap
+      with Weightage, Aptitude, Smart Strategy and Study Plan.
+    </p>
+  </section>
+
+  <section class="cards">
+
+    <div class="card red">
+      <h2>Programming + DSA</h2>
+      <span>20–21 Marks</span>
+
+      <div class="topics">
+        <p>Arrays</p>
+        <p>Linked Lists</p>
+        <p>Stacks</p>
+        <p>Queues</p>
+        <p>Trees</p>
+        <p>Graphs</p>
+        <p>Sorting</p>
+        <p>Searching</p>
+        <p>Dynamic Programming</p>
+        <p>Big-O</p>
       </div>
     </div>
-  );
-}
+
+    <div class="card blue">
+      <h2>Probability & Statistics</h2>
+      <span>14–16 Marks</span>
+
+      <div class="topics">
+        <p>Bayes Theorem</p>
+        <p>Probability</p>
+        <p>Random Variables</p>
+        <p>Distributions</p>
+        <p>Variance</p>
+        <p>Hypothesis Testing</p>
+      </div>
+    </div>
+
+    <div class="card purple">
+      <h2>Machine Learning</h2>
+      <span>10–11 Marks</span>
+
+      <div class="topics">
+        <p>Regression</p>
+        <p>Classification</p>
+        <p>KNN</p>
+        <p>SVM</p>
+        <p>Decision Trees</p>
+        <p>Clustering</p>
+      </div>
+    </div>
+
+    <div class="card yellow">
+      <h2>Artificial Intelligence</h2>
+      <span>10–11 Marks</span>
+
+      <div class="topics">
+        <p>BFS</p>
+        <p>DFS</p>
+        <p>A*</p>
+        <p>Logic</p>
+        <p>Reasoning</p>
+      </div>
+    </div>
+
+    <div class="card green">
+      <h2>Linear Algebra</h2>
+      <span>8–10 Marks</span>
+
+      <div class="topics">
+        <p>Matrices</p>
+        <p>Determinants</p>
+        <p>Eigenvalues</p>
+        <p>Vector Spaces</p>
+      </div>
+    </div>
+
+    <div class="card indigo">
+      <h2>DBMS</h2>
+      <span>8–10 Marks</span>
+
+      <div class="topics">
+        <p>SQL</p>
+        <p>Normalization</p>
+        <p>Joins</p>
+        <p>Transactions</p>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="aptitude">
+    <h2>🎯 General Aptitude</h2>
+
+    <div class="aptitude-grid">
+      <div>Percentages</div>
+      <div>Ratio & Proportion</div>
+      <div>Probability</div>
+      <div>Data Interpretation</div>
+      <div>Grammar</div>
+      <div>Logical Reasoning</div>
+      <div>Reading Comprehension</div>
+      <div>Series</div>
+      <div>Averages</div>
+      <div>Profit & Loss</div>
+    </div>
+  </section>
+
+  <section class="strategy">
+    <div class="box">
+      <h2>📚 Preparation Flow</h2>
+
+      <ul>
+        <li>Probability & Statistics</li>
+        <li>Linear Algebra</li>
+        <li>Programming + DSA</li>
+        <li>Machine Learning</li>
+        <li>AI + DBMS</li>
+        <li>Aptitude Practice</li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <h2>📈 Smart Strategy</h2>
+
+      <ul>
+        <li>Focus on DSA + Statistics + ML</li>
+        <li>Practice PYQs Weekly</li>
+        <li>Daily Aptitude Practice</li>
+        <li>Weekly Revision</li>
+        <li>Mock Tests</li>
+      </ul>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
